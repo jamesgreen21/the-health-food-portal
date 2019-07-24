@@ -1,0 +1,56 @@
+/*font-family: 'Raleway', sans-serif;*/
+/*font-family: 'Roboto', sans-serif;*/
+
+/*****Main*****/
+
+body{
+    font-family: 'Raleway', sans-serif;
+}
+
+/*****Nav bar*****/
+
+.navbar-customise{
+    height: 150px;
+    background: #000;
+}
+
+.nav-link{
+    text-transform: uppercase;
+}
+
+.page-header {
+    display: block;
+    color: rgba(91, 155, 213, 1);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+}
+
+/*****Recipe specific page*****/
+
+.recipe-row {
+    
+}
+
+.recipe-row .cuisine-section {
+    background: #000;
+    color: rgba(91, 155, 213, 1);
+    font-family: 'Roboto', sans-serif;
+}
+
+/*!!!!! ACTION !!!!! - SASS*/
+.cuisine-content{
+    margin-left: 40px;
+    margin-top: 110px;
+    background: none;
+    position: absolute;
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform-origin: 0;
+    -webkit-transform-origin: 0;
+    -moz-transform-origin: 0;
+    -ms-transform-origin: 0;
+    -o-transform-origin: 0;
+}
