@@ -1,0 +1,47 @@
+{% extends 'base.html' %} {% block content %}
+
+
+<div id="recipe-filter" class="container-fluid" style="display: none">
+    <div class="row filter-section">
+        <div class="col-12 col-md-4">
+            <h3>Cuisine Types</h3>
+            <div class="cuisine-filter">
+                <table class="table table-dark">
+                    <tbody>
+                        {% for cuisine in cuisines %}
+                        <tr>
+                            <th scope="row" value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name }}</th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <h3>Food Allergies</h3>
+            <div class="allergies-filter">
+                <table class="table table-dark">
+                    <tbody>
+                        {% for allergy in allergies %}
+                        <tr>
+                            <th scope="row">{{ allergy.allergy_name }}</th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 other-filter">
+            <h3>Other Filters</h3>
+            <div class=""></div>
+        </div>
+    </div>
+</div>
+
+<div id="recipe-data" class="container-fluid"></div>
+
+{% endblock %} {% block script %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/myscript.js') }}"></script>
+
+{% endblock %}

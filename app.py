@@ -1,8 +1,7 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for, jsonify
+from flask import Flask, render_template, redirect, request, url_for, request, jsonify, json
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-from bson.json_util import dumps
 
 app = Flask(__name__)
 
@@ -12,13 +11,25 @@ app.config["MONGO_URI"] = 'mongodb+srv://root:Meagain00@healthyfoodportal-2dtl3.
 mongo = PyMongo(app)
 
 @app.route('/')
+@app.route('/index')
+def index():
+    return render_template("index.html",
+                            page="Home",
+                            cuisines=mongo.db.cuisines.find(),
+                            allergies=mongo.db.allergies.find())
+
+
 @app.route('/get_recipes')
 def get_recipes():
-    myrecipes = dumps(mongo.db.master.find())
-    return render_template("recipes.html", 
-                            recipes=mongo.db.master.find(), 
-                            page="Home")
-   
+    try:
+        docs=[]
+        for doc in mongo.db.master.find():
+            doc['_id'] = str(doc['_id'])
+            docs.append(doc)
+        return jsonify(docs)
+    except Exception as e:
+        return str(e)
+
 @app.route('/add_recipe')
 def add_recipe():
     return render_template("addrecipe.html",
@@ -29,7 +40,7 @@ def add_recipe():
 def insert_recipe():
     recipes = mongo.db.master
     recipes.insert_one(request.form.to_dict())
-    return redirect(url_for('get_recipes'))
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
