@@ -1,0 +1,102 @@
+{% extends 'base.html' %} {% block content %} {% for recipe in recipe_info %}
+
+<div class="container-fluid">
+
+    <!--View Recipe Mode -- effected by #edit-btn -->
+    <div id="view-mode" class="row">
+
+        <!--Recipe Image Section-->
+        <div class="col-12 col-md-4">
+            <label for="photo_id">Recipe Image:</label>
+            <div id="photo-preview">
+                <img src="{{ recipe.photo_id }}"></img>
+            </div>
+        </div>
+
+        <!--Recipe Information Section-->
+        <div class="col-12 col-md-4">
+            <label for="recipe_name">Recipe Name:</label>
+            <h3>{{ recipe.recipe_name }}</h3>
+            <label for="cooking_instructions">Recipe Instructions:</label>
+            <p>{{ recipe.cooking_instructions }}</p>
+        </div>
+
+        <!--Recipe Type & Details-->
+        <div class="col-12 col-md-4 cuisine-list">
+            <label for="recipe_description">Recipe Description:</label>
+            <p>{{ recipe.recipe_description }}</p>
+            <label for="cuisine">Select Recipe Cuisine</label>
+            <p>{{ recipe.cuisine }}</p>
+            <label for="cook_time">Cooking Time (include Prep):</label>
+            <p>{{ recipe.cook_time }}</p>
+            <label for="calories">Recipe Calories:</label>
+            <p>{{ recipe.calories }}</p>
+            <label for="protein">Protein, grams per serving (if known):</label>
+            <p>{{ recipe.protein }}</p>
+        </div>
+
+    </div>
+
+
+    <!--Edit Recipe Mode -- effected by #edit-btn -->
+    <form id="edit-mode" action="{{url_for('update_recipe')}}" method="POST">
+        <div class="form-row">
+
+            <!--Recipe Image Section-->
+            <div class="col-12 col-md-4">
+                <label for="photo_id">Recipe Image:</label>
+                <div id="photo-preview">
+                    <img src="{{ recipe.photo_id }}"></img>
+                </div>
+                <a id="photo_btn" class="btn btn-dark" href="#" role="button">Preview</a>
+                <input id="photo_id" type="url" class="form-control" name="photo_id" value="{{ recipe.photo_id }}" required>
+            </div>
+
+            <!--Recipe Information Section-->
+            <div class="col-12 col-md-4">
+                <label for="recipe_name">Recipe Name:</label>
+                <input type="text" class="form-control" id="recipe_name" name="recipe_name" value="{{ recipe.recipe_name }}" required>
+                <label for="cooking_instructions">Recipe Instructions:</label>
+                <textarea type="text" class="form-control" id="cooking_instructions" name="cooking_instructions">{{ recipe.cooking_instructions }}</textarea>
+            </div>
+
+            <!--Recipe Type & Details-->
+            <div class="col-12 col-md-4 cuisine-list">
+                <label for="recipe_description">Recipe Description:</label>
+                <input type="text" class="form-control" id="recipe_description" name="recipe_description" value="{{ recipe.recipe_description }}" required>
+                <!--Select a cuisine-->
+                <label for="cuisine">Recipe Cuisine:</label>
+                <select name="cuisine" class="custom-select" required>
+                    {% for cuisine in cuisines %}
+                        {% if cuisine.cuisine_name == recipe.cuisine %}
+                        <option value="{{ cuisine.cuisine_name }}" selected>{{ cuisine.cuisine_name }}</option>
+                        {% else %}
+                        <option value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <label for="cook_time">Cooking Time (include Prep):</label>
+                <input type="number" class="form-control" id="cook_time" name="cook_time" value="{{ recipe.cook_time }}">
+                <label for="calories">Recipe Calories:</label>
+                <input type="number" class="form-control" id="calories" name="calories" value="{{ recipe.calories }}">
+                <label for="protein">Protein, grams per serving (if known):</label>
+                <input type="number" class="form-control" id="protein" name="protein" value="{{ recipe.protein }}">
+            </div>
+        </div>
+
+        <!--Hidden button for form submittion actived by #next-btn-->
+        <button id="submit-btn" type="submit" class="btn btn-dark" style="display: none" name="id" value="{{recipe.id}}" ></button>
+    </form>
+
+
+    <!--Buttons for both View & Edit mode-->
+    <div class="row view-btns">
+        <button id="edit-btn" class="btn btn-dark">Edit</button>
+        <a id="save-btn" class="btn btn-dark" href="{{ url_for('index') }}" role="button">Save</a>
+        <button id="next-btn" class="btn btn-dark" style='display: none' onclick="$('#submit-btn').click();">Next</button>
+    </div>
+
+</div>
+
+
+{% endfor %} {% endblock %}

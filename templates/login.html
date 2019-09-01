@@ -1,0 +1,64 @@
+{% extends 'base.html' %} {% block content %} {% if session['logged_in'] %} You're logged in already! {% else %}
+
+<!--Login form-->
+<form action="/login" method="POST">
+    <div class="login">
+        <div class="login-screen">
+            <div class="app-title">
+                <h1>Login</h1>
+            </div>
+            <div class="login-form">
+                <div class="control-group">
+                    <input type="text" class="login-field" value="" placeholder="username" name="username">
+                    <label class="" for="login-name"></label>
+                </div>
+                <div class="control-group">
+                    <input type="password" class="login-field" value="" placeholder="password" name="password">
+                    <label class="" for="login-pass"></label>
+                </div>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <h6>{{ message }}</h6>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <input type="submit" value="Log in" class="">
+                <input id="createNewAccount" type="button" value="Create">
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--Create new account form-->
+<form action="/create_account" method="POST">
+    <div class="create_account" style="display: none;">
+        <div class="login-screen">
+            <div class="app-title">
+                <h1>Create a new account</h1>
+            </div>
+            <div class="login-form">
+                <div class="control-group">
+                    <input type="text" class="login-field" value="" placeholder="username" name="username">
+                    <label class="" for="username"></label>
+                </div>
+                <div class="control-group">
+                    <input type="password" class="login-field" value="" placeholder="password" name="password">
+                    <label class="" for="password"></label>
+                </div>
+                <div class="control-group">
+                    <input type="text" class="login-field" value="" placeholder="First Name" name="first">
+                    <label class="" for="first"></label>
+                </div>
+                <div class="control-group">
+                    <input type="text" class="login-field" value="" placeholder="Last Name" name="last">
+                    <label class="" for="last"></label>
+                </div>
+                
+                <input type="submit" value="Create Account" class="">
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endif %} {% endblock %}

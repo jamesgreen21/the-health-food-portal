@@ -2,31 +2,73 @@
 
 /*font-family: 'Roboto', sans-serif;*/
 
-/*************** Main ***************/
+/*************** App Styles ***************/
 
 body {
     font-family: 'Raleway', sans-serif;
 }
 
+/*blue flash effect*/
+
+.cuisine-filter tr:hover,
+.allergies-filter tr:hover,
+.other-filter tr:hover {
+    animation: flash-blue 1s infinite;
+}
+
+@keyframes flash-blue {
+    0% {
+        background: #454d55;
+    }
+    30% {
+        background: rgba(91, 155, 213, 1);
+    }
+    100% {
+        background: #454d55;
+    }
+}
+
+/*blue highlight effect*/
+
+#save-btn:hover,
+#edit-btn:hover,
+#back-btn:hover,
+#next-btn:hover,
+#photo_btn:hover {
+    background-color: rgba(91, 155, 213, 1);
+    border-color: rgba(91, 155, 213, 1);
+}
+
+#cancel-btn:hover {
+    background-color: #d91414;
+    border-color: #d91414;
+}
+
 /*************** Nav bar ***************/
 
 .navbar-customise {
-    height: 150px;
     background: #000;
 }
 
-.nav-link {
-    text-transform: uppercase;
+.navbar-brand {
+    font-size: 35px;
+    padding-right: 25px;
 }
 
 .page-header {
     display: block;
     color: rgba(91, 155, 213, 1);
     font-family: 'Roboto', sans-serif;
+    font-size: 26px;
     font-weight: 600;
 }
 
-/*************** Recipe specific page ***************/
+.nav-link {
+    text-transform: uppercase;
+    font-size: 20px;
+}
+
+/*************** Nav filter ***************/
 
 #recipe-filter {
     color: #fff;
@@ -50,25 +92,7 @@ body {
     cursor: pointer;
 }
 
-.cuisine-filter tr:hover,
-.allergies-filter tr:hover,
-.other-filter tr:hover {
-    animation: flash-blue 1s infinite;
-}
-
-@keyframes flash-blue {
-    0% {
-        background: #454d55;
-    }
-    30% {
-        background: rgba(91, 155, 213, 1);
-    }
-    100% {
-        background: #454d55;
-    }
-}
-
-/*************** Recipe specific page ***************/
+/*************** Home specific page ***************/
 
 .recipe-row {
     height: 225px;
@@ -77,11 +101,25 @@ body {
     padding: 20px;
     overflow: hidden;
     margin-top: 10px;
-    -webkit-box-shadow: 0px 10px 25px 0px #000;
-    -moz-box-shadow: 0px 10px 25px 0px #000;
+    -webkit-box-shadow: 0px 0px 25px 0px #000;
+    -moz-box-shadow: 0px 0px 25px 0px #000;
     box-shadow: 0px 0px 25px 0px #000;
 }
 
+.saved-recipe-row {
+    background-color: #eafcff;
+    height: 225px;
+    border: 1px solid #000;
+    margin: auto;
+    padding: 20px;
+    overflow: hidden;
+    margin-top: 10px;
+    -webkit-box-shadow: 0px 0px 25px 0px #000;
+    -moz-box-shadow: 0px 0px 25px 0px #000;
+    box-shadow: 0px 0px 25px 0px #000;
+}
+
+.remove-cuisine,
 .cuisine-section {
     cursor: pointer;
     height: 100%;
@@ -92,8 +130,11 @@ body {
     text-transform: capitalize;
 }
 
-.cuisine-section span,
+.remove-cuisine a,
+.cuisine-section a,
 .cuisine-content {
+    text-decoration: none;
+    color: #fff;
     position: absolute;
     width: 100%;
     text-align: center;
@@ -117,30 +158,39 @@ body {
     object-fit: cover;
 }
 
-.recipe-section{
-    cursor: pointer;
-}
-
 .nutrition-calories {
-  width: 0;
-  height: 0;
-  border-top: 150px solid #ffcc00;
-  border-bottom: 150px solid transparent;
-  border-left: 150px solid transparent;
-  position:absolute;
-  right:0;
+    width: 0;
+    height: 0;
+    border-top: 150px solid;
+    border-bottom: 150px solid transparent;
+    border-left: 150px solid transparent;
+    position: absolute;
+    right: 0;
 }
 
-.nutrition-calories span{
-  position:absolute;
-  top: -110px;
-  width: 100px;
-  left: -100px;
-  text-align: center;
-  font-size: 16px;
-  font-family: arial;
-  transform: rotate(45deg);
-  display:block;
+.nutrition-calories span {
+    position: absolute;
+    top: -110px;
+    width: 100px;
+    left: -100px;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    font-family: arial;
+    transform: rotate(45deg);
+    display: block;
+}
+
+.green-calories {
+    border-top: 150px solid green;
+}
+
+.amber-calories {
+    border-top: 150px solid orange;
+}
+
+.red-calories {
+    border-top: 150px solid red;
 }
 
 .nutrition-protein {
@@ -150,4 +200,89 @@ body {
     font-weight: 600;
     top: 75%;
     text-align: center;
+}
+
+
+#back-btn {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    /* Place the button at the bottom of the page */
+    right: 30px;
+    z-index: 1;
+    border: none;
+    outline: none;
+    transition: background-color 0.3s ease;
+    background-color: #343a40;
+    color: #fff;
+    cursor: pointer;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+/*************** Add Recipe specific page ***************/
+
+.form-row {
+    margin-top: 25px;
+}
+
+#photo_btn {
+    transition: background-color 0.3s ease;
+    display: block;
+}
+
+#photo-preview {
+    text-align: center;
+}
+
+#photo-preview img {
+    max-height: 500px;
+    width: 100%;
+    object-fit: contain;
+}
+
+#cooking_instructions {
+    height: 300px;
+}
+
+.view-btns,
+.form-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cancel-btn,
+#next-btn {
+    margin: 10px;
+    transition: background-color 0.3s ease;
+    width: 150px;
+    font-size: 25px;
+}
+
+/*************** View Recipe specific page ***************/
+
+.recipe-container {
+    border: 1px solid #000;
+    border-bottom: none;
+    margin: auto;
+    padding: 20px;
+    margin-top: 10px;
+    -webkit-box-shadow: 0px -5px 15px 5px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px -5px 15px 5px rgba(0,0,0,0.5);
+    box-shadow: 0px -5px 15px 5px rgba(0,0,0,0.5);
+}
+
+#save-btn,
+#edit-btn {
+    margin: 10px;
+    transition: background-color 0.3s ease;
+    width: 150px;
+    font-size: 25px;
+}
+
+#edit-mode{
+    display: none;
 }

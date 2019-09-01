@@ -1,57 +1,61 @@
-{% extends 'base.html' %} {% block header %}
-<span>Add Allergy</span> {% endblock %} {% block content %}
-<form action="{{url_for('insert_recipe')}}" method="POST">
-    <div class="form-row">
-        <!--Upload Image-->
-        <div class="col-12 col-md-3">
+{% extends 'base.html' %} {% block content %}
 
-            <label for="photo_id">Enter an photo https:// URL:</label>
-            <input type="url" name="url" id="url" placeholder="https://example.com" pattern="https://.*" size="30" required>
-
-            <div class="form-group">
-                <label for="calories">Recipe Calories:</label>
-                <input type="number" class="form-control" id="calories" name="calories" placeholder="Enter Calories…">
+<div class="container-fluid">
+    <form action="{{url_for('insert_recipe')}}" method="POST">
+        <div class="form-row">
+            
+            <!--Recipe Image Section-->
+            <div class="col-12 col-md-4">
+                <label for="photo_id">Reciep Image:</label>
+                 <div id="photo-preview">
+                    <img></img>
+                </div>
+               <a id="photo_btn" class="btn btn-dark" href="#" role="button">Preview</a>
+                <input id="photo_id" type="url" class="form-control" name="photo_id" placeholder="https://example.com" required>
             </div>
-
-        </div>
-        <!--Input dish details-->
-        <div class="col-12 col-md-6">
-            <div class="form-group">
-                <label for="recipe_name">Recipe Name:</label>
-                <input type="text" class="form-control" id="recipe_name" name="recipe_name" placeholder="Enter Recipe Name…">
+            
+            <!--Recipe Information Section-->
+            <div class="col-12 col-md-4">
+                <div class="form-group">
+                    <label for="recipe_name">Recipe Name:</label>
+                    <input type="text" class="form-control" id="recipe_name" name="recipe_name" placeholder="Enter Recipe Name…" required>
+                </div>
+                <div class="form-group">
+                    <label for="cooking_instructions">Recipe Instructions:</label>
+                    <textarea type="text" class="form-control" id="cooking_instructions" name="cooking_instructions" placeholder="Insert cooking instructions…"></textarea>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="recipe_description">Recipe Description:</label>
-                <input type="text" class="form-control" id="recipe_description" name="recipe_description" placeholder="Brief description about the dish here…">
-            </div>
-            <div class="form-group">
-                <label for="cooking_instructions">Recipe Instructions:</label>
-                <input type="text" class="form-control" id="cooking_instructions" name="cooking_instructions" placeholder="Insert cooking instructions…">
-            </div>
-            <div class="form-group">
-                <label for="cook_time">Cooking Time (include Prep):</label>
-                <input type="number" class="form-control" id="cook_time" name="cook_time" placeholder="Enter cooking time…">
-            </div>
-            <div class="form-group">
-                <label for="protein">Protein, grams per serving (if known):</label>
-                <input type="number" class="form-control" id="protein" name="protein" placeholder="Grams per serving…">
-            </div>
-        </div>
-        <!--Select a cuisine-->
-        <div class="col-12 col-md-3 cuisine-filter">
-            <label for="cuisine">Select Recipe Cuisine</label>
-            <table class="table table-dark">
-                <tbody>
+            <div class="col-12 col-md-4 cuisine-list">
+                <div class="form-group">
+                    <label for="recipe_description">Recipe Description:</label>
+                    <input type="text" class="form-control" id="recipe_description" name="recipe_description" placeholder="Brief description about the dish here…" required>
+                </div>
+                <!--Select a cuisine-->
+                <label for="cuisine">Select Recipe Cuisine</label>
+                <select name="cuisine" class="custom-select" required>
                     {% for cuisine in cuisines %}
-                    <tr>
-                        <th scope="row" value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name }}</th>
-                    </tr>
+                    <option value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name }}</option>
                     {% endfor %}
-                </tbody>
-            </table>
+                </select>
+                <div class="form-group">
+                    <label for="cook_time">Cooking Time (include Prep):</label>
+                    <input type="number" class="form-control" id="cook_time" name="cook_time" placeholder="Enter cooking time…">
+                </div>
+                <div class="form-group">
+                    <label for="calories">Recipe Calories:</label>
+                    <input type="number" class="form-control" id="calories" name="calories" placeholder="Enter Calories…">
+                </div>
+                <div class="form-group">
+                    <label for="protein">Protein, grams per serving (if known):</label>
+                    <input type="number" class="form-control" id="protein" name="protein" placeholder="Grams per serving…">
+                </div>
+            </div>
         </div>
-    </div>
-    <a class="btn btn-primary" href="{{url_for('index')}}" role="button">Cancel</a>
-    <button type="submit" class="btn btn-primary">Next</button>
-</form>
-{% endblock %}
+        <div class="form-row form-btns">
+            <a id="cancel-btn" class="btn btn-dark" href="{{ url_for('index') }}" role="button">Cancel</a>
+            <button id="submit-btn" type="submit" class="btn btn-dark">Next</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %} 
