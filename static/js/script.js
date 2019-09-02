@@ -32,10 +32,20 @@ $(document).ready(function() {
         $(this).children('a').show(100);
         $(this).css({ "background-color": "#5b9bd5", "transition": "background-color 0.5s ease" })
     });
+    $(".save-recipe").mouseenter(function() {
+        $(this).parent(".cuisine-section").css({
+            "outline": "3px solid #fff",  "transition": "outline-color 0.5s ease"
+        })
+    });
     $(".cuisine-section").mouseleave(function() {
         $(this).children('a').hide();
         $(this).children('.cuisine-content').show(100);
         $(this).css({ "background-color": "#000", "transition": "background-color 0.5s ease" })
+    });
+    $(".save-recipe").mouseleave(function() {
+        $(this).parent(".cuisine-section").css({
+            "outline": "none",  "transition": "outline-color 0.5s ease"
+        })
     });
 
     // REMOVE RECIPE button - updates DB.users with recipe id for remove_recipes

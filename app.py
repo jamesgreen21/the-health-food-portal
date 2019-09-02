@@ -13,6 +13,7 @@ mongo = PyMongo(app)
 @app.route('/')
 @app.route('/index')
 def index():
+    '''Home Page - All recipes'''
     if not session.get('logged_in'):
         return render_template('login.html',
                             page="Login")
@@ -25,6 +26,7 @@ def index():
 
 @app.route('/filter_recipes', methods=['POST'])
 def filter_recipes():
+    '''Home Page - Filter'''
     if not session.get('logged_in'):
         return render_template('login.html',
                             page="Login")
@@ -55,29 +57,9 @@ def filter_recipes():
                             cuisines=mongo.db.cuisines.find(),
                             allergies=mongo.db.allergies.find())
 
-
-@app.route('/saved_recipes')
-def saved_recipes():
-    if not session.get('logged_in'):
-        return render_template('login.html',
-                            page="Login")
-    else:
-        active_user = session['_id']
-        users = mongo.db.users.find({'user_id': active_user})
-        user_recipes = ''
-        for user in users:
-            user_recipes = user["saved_recipes"]
-
-        return render_template("savedrecipes.html",
-                            page="Saved Recipes",
-                            recipes=mongo.db.master.find({"id": {"$in": user_recipes}}),
-                            cuisines=mongo.db.cuisines.find(),
-                            allergies=mongo.db.allergies.find())
-
-
-# https://pythonspot.com/login-authentication-with-flask/
 @app.route('/login', methods=['POST'])
 def login():
+    '''Login - https://pythonspot.com/login-authentication-with-flask/'''
     
     POST_USERNAME = str(request.form['username'])
     POST_PASSWORD = str(request.form['password'])
@@ -92,9 +74,15 @@ def login():
     else:
         flash('The username or password entered is incorrect!')
     return index()
-    
+
+@app.route("/logout")
+def logout():
+    session['logged_in'] = False
+    return index()
+
 @app.route('/create_account', methods=['POST'])
 def create_account():
+    '''Login - Create User'''
     users = mongo.db.users
 
     # Set up user
@@ -119,26 +107,22 @@ def create_account():
     session['logged_in'] = True
     return index()   
     
-@app.route("/logout")
-def logout():
-    session['logged_in'] = False
-    return index()
-
-
 @app.route('/view_recipe')
 def view_recipe():
+    '''View Recipe'''
     recipe_id = request.args.get('recipe', None)
     return render_template("viewrecipe.html", 
                             page="View Recipe",
                             cuisines=mongo.db.cuisines.find(),
-                            recipe_info=mongo.db.master.find({'id': recipe_id}))
-    
+                            recipe_info=mongo.db.master.find({'id': int(recipe_id)}))
+
 @app.route('/save_recipe')
 def save_recipe():
+    ''' User - Save recipe'''
     recipe_id = request.args.get('recipe', None)
     active_user = session['_id']
     users = mongo.db.users.find({'user_id': active_user})
-    db = mongo.db.users
+    users_db = mongo.db.users
     for user in users:
         if user['user_id'] == active_user:
             # Check if recipe_id exists
@@ -149,7 +133,8 @@ def save_recipe():
                 
             user_id = { "user_id": active_user }
             new_values = { "$set": user }
-            db.update_one(user_id, new_values)        
+            users_db.update_one(user_id, new_values)
+            flash('Recipe Saved!')
 
     return render_template("index.html", 
                             page="Home",
@@ -159,6 +144,7 @@ def save_recipe():
 
 @app.route('/remove_recipe')
 def remove_recipe():
+    '''User - Remove recipe'''
     if not session.get('logged_in'):
         return render_template('login.html',
                             page="Login")
@@ -177,6 +163,27 @@ def remove_recipe():
     
         return saved_recipes()
 
+@app.route('/saved_recipes')
+def saved_recipes():
+    '''User - Manage Recipes'''
+    if not session.get('logged_in'):
+        return render_template('login.html',
+                            page="Login")
+    else:
+        active_user = session['_id']
+        users = mongo.db.users.find({'user_id': active_user})
+        user_recipes = ''
+        for user in users:
+            user_recipes = list(map(int, user["saved_recipes"]))
+            
+        print(user_recipes)
+        return render_template("savedrecipes.html",
+                            page="Saved Recipes",
+                            recipes=mongo.db.master.find({"id": {"$in": user_recipes}}),
+                            cuisines=mongo.db.cuisines.find(),
+                            allergies=mongo.db.allergies.find())
+
+# Add Recipe
 @app.route('/add_recipe')
 def add_recipe():
     return render_template("addrecipe.html",
@@ -185,6 +192,7 @@ def add_recipe():
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
+    '''Insert recipe to db'''
     recipes = mongo.db.master
     new_recipe = {k.lower():v.lower()
         for k, v in
@@ -193,13 +201,17 @@ def insert_recipe():
     for key in new_recipe:
         if key in ['cook_time','calories','protein']:
             new_recipe[key] = int(new_recipe[key])
-            
+    # Update id
+    recipe_id = recipes.find_one(sort=[("id", -1)])["id"]
+    new_recipe.update({'id': recipe_id+1})
+    
     recipes.insert_one(new_recipe)
     return redirect(url_for('index'))
 
 
 @app.route('/update_recipe', methods=['POST'])
 def update_recipe():
+    '''Update recipe on db'''
     recipes = mongo.db.master
     
     updated_rec = {k.lower():v.lower()

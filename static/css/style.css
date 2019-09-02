@@ -121,7 +121,7 @@ body {
 
 .remove-cuisine,
 .cuisine-section {
-    cursor: pointer;
+    outline-offset: -10px;
     height: 100%;
     width: 100%;
     background: #000;
@@ -145,6 +145,11 @@ body {
     -moz-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
     -ms-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
     -o-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+}
+
+.remove-cuisine a:hover,
+.cuisine-section a:hover{
+    text-decoration: underline;
 }
 
 .photo-section {
@@ -220,6 +225,18 @@ body {
     border-radius: 10px;
     font-size: 20px;
     font-family: 'Roboto', sans-serif;
+}
+
+#save-alert{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    background-color: #000;
+    color: #fff;
+    border-radius: 5px;
+    height: 75px;
+    width: 150px;
 }
 
 /*************** Add Recipe specific page ***************/

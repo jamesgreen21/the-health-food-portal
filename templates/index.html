@@ -1,5 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 
+<!--Nav Bar Filter Menu-->
 <div id="recipe-filter" class="container-fluid" style="display: none">
     <form action="{{url_for('filter_recipes')}}" method="POST">
         <div class="form-row">
@@ -50,10 +51,12 @@
     </form>
 </div>
 
+<!--Add each recipe-->
 {% for recipe in recipes %}
 <div class="container-fluid">
     <div class="row recipe-row">
 
+        <!--Cuisine label and Save button-->
         <div id="cuisine-section" class="col-12 col-md-1 cuisine-section">
             <div class="cuisine-content">{{ recipe.cuisine }}</div>
             <a id="{{ recipe.id }}" class="save-recipe" href="{{url_for('save_recipe', recipe='REPLACE')}}" style="display: none">Save Recipe</a>
@@ -71,16 +74,17 @@
         </div>
 
         <div class="col-12 col-md-2 nutrition-section">
-            {% if recipe.calories
-            <=350 %} <div class="nutrition-calories green-calories">
-                {% elif recipe.calories
-                <=500 %} <div class="nutrition-calories amber-calories">
-                    {% else %}
-                    <div class="nutrition-calories red-calories">
-                        {% endif %}
-                        <span>{{ recipe.calories }}</span>
-                    </div>
-                    <div class="nutrition-protein">{{ recipe.protein }} grams</div>
+            {% if recipe.calories <=350 %} 
+            <div class="nutrition-calories green-calories">
+            {% elif recipe.calories <=500 %} <div class="nutrition-calories amber-calories">
+            {% else %}
+            <div class="nutrition-calories red-calories">
+            {% endif %}
+                <span>{{ recipe.calories }}</span>
+            </div>
+            <div class="nutrition-protein">
+                {{ recipe.protein }} grams
+            </div>
         </div>
 
     </div>
@@ -88,4 +92,19 @@
 {% endfor %}
 
 <!--Go to top button-->
-<button id="back-btn" title="Go to top">Go To Top</button> {% endblock %}
+<button id="back-btn" title="Go to top">Go To Top</button> 
+
+<!--Saved Recipe alert-->
+
+<!--{% with messages = get_flashed_messages() %}-->
+<!--    {% if messages %}-->
+<!--        {% for message in messages %}-->
+<!--            <div id="save-alert">-->
+<!--                <h6>{{ message }}</h6>-->
+<!--                <button id="save-confirm">OK</button>-->
+<!--            </div>-->
+<!--        {% endfor %}-->
+<!--    {% endif %}-->
+<!--{% endwith %}-->
+
+{% endblock %}
