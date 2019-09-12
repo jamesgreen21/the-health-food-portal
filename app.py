@@ -18,9 +18,15 @@ def index():
         return render_template('login.html',
                             page="Login")
     else:
+        active_user = session['_id']
+        users = mongo.db.users.find({'user_id': active_user})
+        user_recipes = ''
+        for user in users:
+            user_recipes = list(map(int, user["saved_recipes"]))
         return render_template("index.html",
                             page="Home",
                             recipes=mongo.db.master.find(),
+                            saved_recipes=user_recipes,
                             cuisines=mongo.db.cuisines.find(),
                             allergies=mongo.db.allergies.find())
 
@@ -114,7 +120,8 @@ def view_recipe():
     return render_template("viewrecipe.html", 
                             page="View Recipe",
                             cuisines=mongo.db.cuisines.find(),
-                            recipe_info=mongo.db.master.find({'id': int(recipe_id)}))
+                            recipe_info=mongo.db.master.find({'id': int(recipe_id)}),
+                            allergies=mongo.db.allergies.find())
 
 @app.route('/save_recipe')
 def save_recipe():
@@ -134,10 +141,10 @@ def save_recipe():
             user_id = { "user_id": active_user }
             new_values = { "$set": user }
             users_db.update_one(user_id, new_values)
-            flash('Recipe Saved!')
 
     return render_template("index.html", 
                             page="Home",
+                            messages="Recipe Saved!",
                             cuisines=mongo.db.cuisines.find(),
                             recipes=mongo.db.master.find(),
                             allergies=mongo.db.allergies.find())
@@ -176,7 +183,6 @@ def saved_recipes():
         for user in users:
             user_recipes = list(map(int, user["saved_recipes"]))
             
-        print(user_recipes)
         return render_template("savedrecipes.html",
                             page="Saved Recipes",
                             recipes=mongo.db.master.find({"id": {"$in": user_recipes}}),
@@ -188,7 +194,9 @@ def saved_recipes():
 def add_recipe():
     return render_template("addrecipe.html",
                             cuisines=mongo.db.cuisines.find(),
-                            page="Add Recipe")
+                            select_cuisines=mongo.db.cuisines.find(),
+                            page="Add Recipe",
+                            allergies=mongo.db.allergies.find())
 
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
@@ -207,7 +215,6 @@ def insert_recipe():
     
     recipes.insert_one(new_recipe)
     return redirect(url_for('index'))
-
 
 @app.route('/update_recipe', methods=['POST'])
 def update_recipe():

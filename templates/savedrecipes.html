@@ -1,95 +1,61 @@
 {% extends 'base.html' %} {% block content %}
 
+<div class="container-fluid">
 
-<div id="recipe-filter" class="container-fluid" style="display: none">
-    <div class="row filter-section">
-        <div class="col-12 col-md-4">
-            <h3>Cuisine Types</h3>
-            <div class="cuisine-filter">
-                <table class="table table-dark">
-                    <tbody>
-                        {% for cuisine in cuisines %}
-                        <tr>
-                            <th scope="row" value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name }}</th>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-12 col-md-4">
-            <h3>Food Allergies</h3>
-            <div class="allergies-filter">
-                <table class="table table-dark">
-                    <tbody>
-                        {% for allergy in allergies %}
-                        <tr>
-                            <th scope="row">{{ allergy.allergy_name }}</th>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-12 col-md-4 other-filter">
-            <form>
-                <div class="form-group">
-                    <label for="formControlRange">Calories</label>
-                    <input type="range" class="form-control-range" id="formControlRange">
-                </div>
-            </form>
-            <form>
-                <div class="form-group">
-                    <label for="formControlRange">Cooking Time</label>
-                    <input type="range" class="form-control-range" id="formControlRange">
-                </div>
-            </form>
-            <form>
-                <div class="form-group">
-                    <label for="formControlRange">Protein</label>
-                    <input type="range" class="form-control-range" id="formControlRange">
-                </div>
-            </form>
-        </div>
+    <div class="header-engraved">
+        Welcome to your saved recipes
     </div>
-</div>
 
 {% for recipe in recipes %}
-<div class="container-fluid">
     <div class="row saved-recipe-row">
 
-        <div class="col-12 col-md-1 remove-cuisine">
-            <div class="cuisine-content">{{ recipe.cuisine }}</div>
-            <a id="{{ recipe.id }}" class="remove-recipe" href="{{url_for('remove_recipe', recipe='REPLACE')}}" style="display: none">Remove Recipe</a>
+        <!--Remove button-->
+        <div id="remove-section" class="col-12 col-lg-1 remove-section">
+            <div class="remove-option">Remove Recipe</div>
+            <a id="{{ recipe.id }}" class="remove-recipe" href="{{url_for('remove_recipe', recipe='REPLACE')}}" style="display: none">Click to Remove</a>
         </div>
 
-        <div class="col-4 col-md-2 photo-section">
+        <!--Recipe Image-->
+        <div class="col-12 col-md-4 col-lg-2 photo-section">
             <img src="{{ recipe.photo_id }}" class="photo-content"></img>
         </div>
 
-        <div class="col-8 col-md-7 recipe-section">
+        <!--Recipe Details-->
+        <div class="col-12 col-md-8 col-lg-7 recipe-section">
+            <h3 class="recipe-cuisine">{{ recipe.cuisine }}</h3>
             <h4 class="recipe-title">{{ recipe.recipe_name }}</h4>
             <p class="recipe-description">{{ recipe.recipe_description }}</p>
             <p class="recipe-time">{{ recipe.cook_time }} Minutes</p>
             <a id="{{ recipe.id }}" class="view-recipe" href="{{url_for('view_recipe', recipe='REPLACE')}}">View Recipe</a>
         </div>
 
-        <div class="col-12 col-md-2 nutrition-section">
-            {% if recipe.calories
-            <=350 %} <div class="nutrition-calories green-calories">
-                {% elif recipe.calories
-                <=500 %} <div class="nutrition-calories amber-calories">
-                    {% else %}
-                    <div class="nutrition-calories red-calories">
-                        {% endif %}
-                        <span>{{ recipe.calories }}</span>
-                    </div>
-                    <div class="nutrition-protein">{{ recipe.protein }} grams</div>
+        <!--Nutritional Details-->
+        <div class="col-12 col-lg-2 nutrition-section">
+            {% if recipe.calories<=350 %} 
+            <div class="nutrition-calories green-calories">
+                <span>{{ recipe.calories }}</span>
+            </div>
+            {% elif recipe.calories<=500 %} 
+            <div class="nutrition-calories amber-calories">
+                <span>{{ recipe.calories }}</span>
+            </div>
+            {% else %}
+            <div class="nutrition-calories red-calories">
+                <span>{{ recipe.calories }}</span>
+            </div>
+                {% endif %}
+            <div class="nutrition-protein">
+                Protein: {{ recipe.protein }}g
+            </div>
         </div>
 
     </div>
-</div>
+
 {% endfor %}
+</div>
+
+<!--    <h1>It doesn't look like you've saved any recipes yet!</h1>-->
+<!--    <h3>Go back to the Home page to save recipes</h3>-->
 
 <!--Go to top button-->
 <button id="back-btn" title="Go to top">Go To Top</button> {% endblock %}

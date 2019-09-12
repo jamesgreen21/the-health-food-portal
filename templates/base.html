@@ -8,7 +8,7 @@
     <!--BOOTSTRAP-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!--FONTS-->
-    <link href="https://fonts.googleapis.com/css?family=Raleway|Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto&display=swap" rel="stylesheet">
     <!--ICONS-->
     <script src="https://kit.fontawesome.com/dad3a7548e.js"></script>
     <!--LOCAL CSS-->
@@ -19,23 +19,31 @@
 </head>
 
 <body>
+
     <nav class="navbar navbar-expand-lg navbar-dark navbar-customise">
-        <a class="navbar-brand" href="#">The Healthy Food Portal<span class="page-header">{{ page }}</span></a>
+        <a class="navbar-brand" href="{{url_for('index')}}">The Healthy Food Portal<span class="page-header">{{ page }}</span></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
          </button>
 
         <!--Clears all links when not logged in!-->
-        {% if page == 'Login' %}
-        
-        {% else %}
+        {% if page == 'Login' %} {% else %}
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('index')}}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('add_recipe')}}">Add Recipe</a>
+                    <a id="nav-filter" class="nav-link" href="#">Search</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Manage Recipes
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{url_for('add_recipe')}}">Add Recipe</a>
+                        <a class="dropdown-item" href="">Edit Recipes</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('saved_recipes')}}">Saved Recipes</a>
@@ -43,15 +51,62 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
                 </li>
-                {% if page == 'Home' %}
-                <li class="nav-item">
-                    <a id="nav-filter" class="nav-link" href="#">Filter</a>
-                </li>
-                {% endif %}
             </ul>
         </div>
         {% endif %}
     </nav>
+
+    <!--Nav Bar Filter Menu-->
+    <div id="recipe-filter" class="container-fluid" style="display: none">
+        <form action="{{url_for('filter_recipes')}}" method="POST">
+            <div class="row">
+
+                <!--Cuisine Filters-->
+                <div class="col-12 col-md-4 form-group cuisine-filter">
+                    <label for="cuisine">Cuisine Types</label>
+                    <select class="form-control" name="cuisine" multiple="multiple" size='6'>
+                    {% for cuisine in cuisines %}
+                    <option value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+
+                <!--Food Allergy Filters-->
+                <div class="col-12 col-md-4 form-group allegy-filter">
+                    <label for="allergies">Food Allergies</label>
+                    <select class="form-control" name="allergies" multiple="multiple" size='6'>
+                    {% for allergy in allergies %}
+                    <option value="{{ allergy.allergy_name }}">{{ allergy.allergy_name }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+
+                <!--Other Filters-->
+                <div class="col-12 col-md-4">
+                    <label for="calories">Calories: </label>
+                    <span id="caloriesText">1000 cals</span>
+                    <input type="range" class="custom-range" name="calories" id="calories" value="1000" min="0" max="1000" step="50" onchange="$('#caloriesText').html(this.value + ' cals');">
+
+                    <label for="cook_time">Cooking Time: </label>
+                    <span id="cookText">60 mins</span>
+                    <input type="range" class="custom-range" name="cook_time" id="cook_time" value="60" min="0" max="60" step="5" onchange="$('#cookText').html(this.value + ' mins');">
+
+                    <label for="protein">Protein: </label>
+                    <span id="proteinText">40g</span>
+                    <input type="range" class="custom-range" name="protein" id="protein" value="40" min="0" max="40" step="5" onchange="$('#proteinText').html(this.value + 'g');">
+                </div>
+
+                <!--Filter Button-->
+                <div class="col-12 form-controls filter-controls">
+                    <!--<input id="createNewAccount" class="btn btn-outline-primary btn-lg" type="button" value="Create">-->
+                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Filter">
+                    <!--<button id="submit-btn" type="submit" class="btn btn-dark">Filter</button>-->
+                </div>
+
+            </div>
+        </form>
+    </div>
+
 
     {% block content %} {% endblock %}
 

@@ -25,46 +25,65 @@ $(document).ready(function() {
         $(".login").hide(0);
         $(".create_account").show(0);
     });
+    $('#cancelNewAccount').on('click',function() {
+        $(".create_account").hide(0);
+        $(".login").show(0);
+    });
 
     // Recipe Cuisine & SAVE RECIPE button - updates DB.users with recipe id for saved_recipes
-    $(".cuisine-section").mouseenter(function() {
-        $(this).children('.cuisine-content').hide();
-        $(this).children('a').show(100);
-        $(this).css({ "background-color": "#5b9bd5", "transition": "background-color 0.5s ease" })
+    $(".recipe-row").mouseenter(function() {
+        $(this).children('#save-section').children('.save-option').hide();
+        $(this).children('#save-section').children('.save-recipe').show(100);
+        $(this).children('#save-section').css({ "background-color": "#007bff", "transition": "background-color 0.5s ease" })
     });
     $(".save-recipe").mouseenter(function() {
-        $(this).parent(".cuisine-section").css({
+        $(this).parent(".save-section").css({
             "outline": "3px solid #fff",  "transition": "outline-color 0.5s ease"
         })
     });
-    $(".cuisine-section").mouseleave(function() {
-        $(this).children('a').hide();
-        $(this).children('.cuisine-content').show(100);
-        $(this).css({ "background-color": "#000", "transition": "background-color 0.5s ease" })
+    $(".recipe-row").mouseleave(function() {
+        $(this).children('#save-section').children('.save-recipe').hide(100);
+        $(this).children('#save-section').children('.save-option').show(100);
+        $(this).children('#save-section').css({ "background-color": "#5b9bd5", "transition": "background-color 0.5s ease" })
     });
     $(".save-recipe").mouseleave(function() {
-        $(this).parent(".cuisine-section").css({
+        $(this).parent(".save-section").css({
             "outline": "none",  "transition": "outline-color 0.5s ease"
         })
     });
 
     // REMOVE RECIPE button - updates DB.users with recipe id for remove_recipes
-    $(".remove-cuisine").mouseenter(function() {
-        $(this).children('.cuisine-content').hide();
-        $(this).children('a').show(100);
-        $(this).css({ "background-color": "#ff303b", "transition": "background-color 0.5s ease" })
+    $(".saved-recipe-row").mouseenter(function() {
+        $(this).children('#remove-section').children('.remove-option').hide();
+        $(this).children('#remove-section').children('.remove-recipe').show(100);
+        $(this).children('#remove-section').css({ "background-color": "#ff303b", "transition": "background-color 0.5s ease" })
     });
-    $(".remove-cuisine").mouseleave(function() {
-        $(this).children('a').hide();
-        $(this).children('.cuisine-content').show(100);
-        $(this).css({ "background-color": "#000", "transition": "background-color 0.5s ease" })
+    $(".remove-recipe").mouseenter(function() {
+        $(this).parent("#remove-section").css({
+            "outline": "3px solid #fff",  "transition": "outline-color 0.5s ease"
+        })
+    });
+    $(".saved-recipe-row").mouseleave(function() {
+        $(this).children('#remove-section').children('.remove-recipe').hide(100);
+        $(this).children('#remove-section').children('.remove-option').show(100);
+        $(this).children('#remove-section').css({ "background-color": "#5b9bd5", "transition": "background-color 0.5s ease" })
+    });
+    $(".remove-recipe").mouseleave(function() {
+        $(this).parent("#remove-section").css({
+            "outline": "none",  "transition": "outline-color 0.5s ease"
+        })
     });
 
     // Add Recipe Page - Preview Image
-    $('#photo_btn').on('click', function() {
-        var url = $('#photo_id').val()
+    $('#prevImg').on('click', function() {
+        var url = $('#photoUrl').val()
         $('#photo-preview img').prop('src', url);
         $('#photo-preview img').prop('alt', 'Please make sure the URL is correct');
+    });
+    $('#clearImg').on('click', function() {
+        $('#photoUrl').val("")
+        $('#photo-preview img').prop('src', "");
+        $('#photo-preview img').prop('alt', "");
     });
 
     // View/Edit Page - Toggle View & Edit page mode
@@ -90,6 +109,10 @@ $(document).ready(function() {
     function allergyPopup() {
         $('#submit-btn').click();
     }
+    
+    $('#save-confirm').on('click',function() {
+        $("#save-alert").remove()
+    });
 
 });
 

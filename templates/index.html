@@ -1,89 +1,49 @@
 {% extends 'base.html' %} {% block content %}
 
-<!--Nav Bar Filter Menu-->
-<div id="recipe-filter" class="container-fluid" style="display: none">
-    <form action="{{url_for('filter_recipes')}}" method="POST">
-        <div class="form-row">
-
-            <!--Cuisine Filters-->
-            <div class="col-12 col-md-4">
-                <div class="form-group">
-                    <label for="cuisine">Cuisine Types</label>
-                    <select multiple class="form-control" name="cuisine">
-                    {% for cuisine in cuisines %}
-                    <option value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name }}</option>
-                    {% endfor %}
-                    </select>
-                </div>
-            </div>
-
-            <!--Food Allergy Filters-->
-            <div class="col-12 col-md-4">
-                <div class="form-group">
-                    <label for="allergies">Food Allergies</label>
-                    <select multiple class="form-control" name="allergies">
-                    {% for allergy in allergies %}
-                    <option value="{{ allergy.allergy_name }}">{{ allergy.allergy_name }}</option>
-                    {% endfor %}
-                </select>
-                </div>
-            </div>
-
-            <!--Other Filters-->
-            <div class="col-12 col-md-4">
-                <label for="calories">Calories: </label>
-                <span id="caloriesText">1000 cals</span>
-                <input type="range" class="custom-range" name="calories" id="calories" value="1000" min="0" max="1000" step="50" onchange="$('#caloriesText').html(this.value + ' cals');">
-                
-                <label for="cook_time">Cooking Time: </label>
-                <span id="cookText">60 mins</span>
-                <input type="range" class="custom-range" name="cook_time" id="cook_time" value="60" min="0" max="60" step="5" onchange="$('#cookText').html(this.value + ' mins');">
-
-                <label for="protein">Protein: </label>
-                <span id="proteinText">40g</span>
-                <input type="range" class="custom-range" name="protein" id="protein" value="40" min="0" max="40" step="5" onchange="$('#proteinText').html(this.value + 'g');">
-            </div>
-
-        </div>
-        <div class="form-row form-btns">
-            <button id="submit-btn" type="submit" class="btn btn-dark">Filter</button>
-        </div>        
-    </form>
-</div>
-
 <!--Add each recipe-->
 {% for recipe in recipes %}
 <div class="container-fluid">
     <div class="row recipe-row">
 
-        <!--Cuisine label and Save button-->
-        <div id="cuisine-section" class="col-12 col-md-1 cuisine-section">
-            <div class="cuisine-content">{{ recipe.cuisine }}</div>
-            <a id="{{ recipe.id }}" class="save-recipe" href="{{url_for('save_recipe', recipe='REPLACE')}}" style="display: none">Save Recipe</a>
+        <!--Save button-->
+        {% if recipe.id in saved_recipes %}
+        <div class="col-12 col-lg-1 saved-section">
+            <div class="saved-recipe">Saved</div>
         </div>
+        {% else %}
+        <div id="save-section" class="col-12 col-lg-1 save-section">
+            <div class="save-option">Save Recipe</div>
+            <a id="{{ recipe.id }}" class="save-recipe" href="{{url_for('save_recipe', recipe='REPLACE')}}" style="display: none">Click to Save</a>
+        </div>
+        {% endif %}
 
-        <div class="col-4 col-md-2 photo-section">
+        <!--Recipe Image-->
+        <div class="col-12 col-md-4 col-lg-2 photo-section">
             <img src="{{ recipe.photo_id }}" class="photo-content"></img>
         </div>
 
-        <div class="col-8 col-md-7 recipe-section">
+        <!--Recipe Details-->
+        <div class="col-12 col-md-8 col-lg-7 recipe-section">
+            <h3 class="recipe-cuisine">{{ recipe.cuisine }}</h3>
             <h4 class="recipe-title">{{ recipe.recipe_name }}</h4>
             <p class="recipe-description">{{ recipe.recipe_description }}</p>
             <p class="recipe-time">{{ recipe.cook_time }} Minutes</p>
             <a id="{{ recipe.id }}" class="view-recipe" href="{{url_for('view_recipe', recipe='REPLACE')}}">View Recipe</a>
         </div>
 
-        <div class="col-12 col-md-2 nutrition-section">
+        <!--Nutritional Details-->
+        <div class="col-12 col-lg-2 nutrition-section">
             {% if recipe.calories <=350 %} 
             <div class="nutrition-calories green-calories">
-            {% elif recipe.calories <=500 %} <div class="nutrition-calories amber-calories">
+            {% elif recipe.calories <=500 %} 
+            <div class="nutrition-calories amber-calories">
             {% else %}
             <div class="nutrition-calories red-calories">
             {% endif %}
-                <span>{{ recipe.calories }}</span>
+                <span>{{ recipe.calories }} Cals</span>
             </div>
             <div class="nutrition-protein">
-                {{ recipe.protein }} grams
+                Protein: {{ recipe.protein }}g
             </div>
         </div>
 
@@ -95,16 +55,11 @@
 <button id="back-btn" title="Go to top">Go To Top</button> 
 
 <!--Saved Recipe alert-->
-
-<!--{% with messages = get_flashed_messages() %}-->
-<!--    {% if messages %}-->
-<!--        {% for message in messages %}-->
-<!--            <div id="save-alert">-->
-<!--                <h6>{{ message }}</h6>-->
-<!--                <button id="save-confirm">OK</button>-->
-<!--            </div>-->
-<!--        {% endfor %}-->
-<!--    {% endif %}-->
-<!--{% endwith %}-->
+{% if messages %}
+    <div id="save-alert">
+        <h5>{{ messages }}</h5>
+        <button id="save-confirm" class="btn btn-secondary">OK</button>
+    </div>
+{% endif %}
 
 {% endblock %}
