@@ -21,7 +21,7 @@ body {
         background: #454d55;
     }
     30% {
-        background: rgba(91, 155, 213, 1);
+        background: #5b9bd5;
     }
     100% {
         background: #454d55;
@@ -34,30 +34,34 @@ body {
 #save-btn:hover,
 #edit-btn:hover,
 #back-btn:hover,
-#next-btn:hover,
 #photo_btn:hover {
-    background-color: rgba(91, 155, 213, 1);
-    border-color: rgba(91, 155, 213, 1);
+    background-color: #5b9bd5;
+    border-color: #5b9bd5;
 }
 
 #cancel-btn:hover {
-    background-color: #d91414;
-    border-color: #d91414;
+    background-color: #fff;
+    border-color: #fff;
 }
 
-.btn-outline-primary{
-    border-color: rgba(91, 155, 213, 1);
-    color: rgba(91, 155, 213, 1);
+.btn-primary {
+    background-color: #5b9bd5;
+    border-color: #5b9bd5;
+}
+
+.btn-outline-primary {
+    border-color: #5b9bd5;
+    color: #5b9bd5;
 }
 
 /*************** Login Page ***************/
 
 .create_account,
-.login{
+.login {
     padding: 20px;
 }
 
-.login-title{
+.login-title {
     font-family: 'Lato', sans-serif;
     padding-top: 20px;
     padding-bottom: 10px;
@@ -68,25 +72,25 @@ body {
     border-top-right-radius: 10px;
 }
 
-.login-details{
+.login-details {
     padding: 20px;
     border: 1px solid #5b9bd5;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
 
-.user-detail{
+.user-detail {
     padding: 10px;
 }
 
-.create-details{
+.create-details {
     padding: 20px;
     border: 1px solid #000;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
 
-.create-title{
+.create-title {
     padding-top: 20px;
     padding-bottom: 10px;
     text-align: center;
@@ -97,20 +101,20 @@ body {
 }
 
 .create-details label,
-.login-details label{
+.login-details label {
     font-weight: bold;
 }
 
-.login-controls{
+.login-controls {
     padding-top: 20px;
     text-align: center;
 }
 
-.login-controls input{
+.login-controls input {
     margin: 10px;
 }
 
-.login-messages{
+.login-messages {
     text-align: center;
     font-style: italic;
 }
@@ -138,6 +142,41 @@ body {
     text-transform: uppercase;
     font-size: 18px;
 }
+.navbar-dark .navbar-nav .logout-link:focus, 
+.navbar-dark .navbar-nav .logout-link:hover {
+    color: red;
+}
+
+.helper-container2,
+.helper-container{
+    z-index: 1;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.edit-helper{
+    display: inline-block;
+    width: 250px;
+    top: 20vh;
+    background-color: #343a40;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.edit-helper h6{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 10px;
+    background-color: #5b9bd5;
+}
+.edit-helper p{
+    padding: 10px;
+}
+.edit-helper button{
+    margin-bottom: 15px;
+}
 
 /*************** Nav filter ***************/
 
@@ -150,14 +189,25 @@ body {
     text-align: center;
 }
 
+.cuisine-filter,
+.allegy-filter {
+    color: #5b9bd5;
+    font-size: 18px;
+}
 .cuisine-filter select,
-.allegy-filter select{
+.allegy-filter select {
     text-transform: capitalize;
     border: 3px solid #5b9bd5;
 }
 
-.filter-controls{
+.filter-controls {
     padding-top: 10px;
+}
+
+#calories,
+#cook_time,
+#proteinText{
+    display: inline-block;
 }
 
 /*************** Home & Saved Recipes pages ***************/
@@ -178,6 +228,7 @@ body {
 .saved-section,
 .remove-section,
 .save-section {
+    height: 50px;
     outline-offset: -10px;
     font-family: 'Lato', sans-serif;
     color: #fff;
@@ -189,24 +240,26 @@ body {
 .save-section a,
 .remove-option,
 .save-option {
+    line-height: 50px;
     height: 100%;
     width: 100%;
     font-size: 26px;
     text-decoration: none;
     color: #fff;
+    border-radius: 5px;
 }
 
-.saved-recipe{
+.saved-recipe {
     background-color: #000;
 }
 
 .remove-option,
-.save-option{
+.save-option {
     background-color: #5b9bd5;
 }
 
 .remove-section a:hover,
-.save-section a:hover{
+.save-section a:hover {
     text-decoration: underline;
 }
 
@@ -228,7 +281,7 @@ body {
     text-transform: capitalize;
 }
 
-.recipe-cuisine{
+.recipe-cuisine {
     margin-top: 5px;
     text-transform: uppercase;
     width: 100%;
@@ -241,55 +294,150 @@ body {
     font-size: 26px;
 }
 
-.recipe-title{
+.recipe-title {
     font-size: 20px;
 }
-.recipe-description{
+
+.recipe-description {
     font-size: 15px;
 }
-.recipe-time{
+
+.recipe-time {
     font-size: 15px;
     font-weight: bolder;
 }
-.view-recipe{
-    font-size: 18px;
-    color: #5b9bd5;
-}
 
-.nutrition-section{
-    font-family: 'Lato', sans-serif;
-}
-
-.nutrition-calories {
-    display: inline-block;
-    width: 45%;
+.view-recipe-container {
+    display: none;
     text-align: center;
-    border-radius: 5px;
-    color: #fff;
+    padding-bottom: 20px;
 }
 
-.green-calories {
-    background-color: green;
+.view-recipe-container-sm button {
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
 }
 
-.amber-calories {
-    background-color: orange;
+.nutrition-break {
+    text-align: center;
 }
 
-.red-calories {
-    background-color: red;
+.nutrition-break h6 {
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.nutrition-section {
+    font-family: 'Lato', sans-serif;
+    color: #000;
 }
 
 .nutrition-protein {
+    display: inline-block;
+    width: 48%;
     font-size: 18px;
     font-weight: 500;
-    display: inline-block;
-    width: 45%;
     text-align: right;
-    border-radius: 5px;
 }
 
+.protein {
+    font-style: italic;
+    font-size: 14px;
+    font-weight: 400;
+}
 
+.nutrition-allergy-sm {
+    display: inline-block;
+    width: 48%;
+    text-align: left;
+}
+
+.nutrition-allergy-sm label {
+    display: block;
+    font-size: 8px;
+}
+
+.nutrition-allergy-sm img {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    object-fit: fill;
+}
+
+.nutrition-allergy {
+    display: none;
+    width: 48%;
+    text-align: left;
+}
+
+.nutrition-allergy label {
+    display: block;
+    font-size: 8px;
+}
+
+.nutrition-allergy img {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    object-fit: fill;
+}
+
+.nutrition-allergy .allergy-description {
+    display: none;
+}
+
+.no-allergy {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 1px solid #000;
+    font-size: 8px;
+}
+
+.nutrition-calories {
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+}
+
+.green-calories span {
+    background-color: green;
+    border: 10px solid green;
+    border-radius: 50%;
+}
+
+.amber-calories span {
+    background-color: orange;
+    border: 10px solid orange;
+    border-radius: 50%;
+}
+
+.red-calories span {
+    background-color: red;
+    border: 10px solid red;
+    border-radius: 50%;
+}
+
+.editable-sm{
+    font-size: 12px;
+    font-style: italic;
+    color: #5b9bd5;
+    font-weight: 600;
+    text-align: center;
+    padding-top: 10px;
+}
+.editable-lg{
+    display:none;
+    font-size: 12px;
+    font-style: italic;
+    color: #5b9bd5;
+    font-weight: 600;
+    text-align: right;
+    padding-top: 10px;
+}
 #back-btn {
     display: none;
     position: fixed;
@@ -309,7 +457,7 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
-#save-alert{
+#save-alert {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -323,36 +471,34 @@ body {
     width: 150px;
 }
 
-.header-engraved{
+.header-engraved {
     border: 1px solid #000;
     margin: auto;
-    padding: 20px;
+    padding: 10px;
     overflow: hidden;
     margin-top: 10px;
-    font-size: 50px;
+    font-size: 22px;
     text-align: center;
     font-family: 'Lato', sans-serif;
-    height: 100px;
+    height: 75px;
     line-height: 50px;
     color: #fff;
     background-color: #5b9bd5;
     text-shadow: 0px -1px 0px rgb(0, 0, 0);
     -webkit-box-shadow: 0px 0px 25px 0px #000;
     -moz-box-shadow: 0px 0px 25px 0px #000;
-    box-shadow: 0px 0px 25px 0px #000;    
+    box-shadow: 0px 0px 25px 0px #000;
 }
 
-/*************** Add Recipe specific page ***************/
+/*************** Add/Edit Recipe specific page ***************/
 
-.addrecipe-row {
-    margin-top: 25px;
+.add-recipe-section,
+.add-info-section,
+.add-photo-section {
+    padding-top: 20px;
 }
 
-.add-photo-section{
-    background-image: linear-gradient(180deg, #5b9bd5, transparent);
-}
-
-.addrecipe-row label{
+.edit-mode label {
     border: 1px solid #000;
     padding: 5px;
     font-size: 18px;
@@ -363,19 +509,38 @@ body {
     font-style: italic;
 }
 
-.addrecipe-row input{
+.edit-mode input {
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+.edit-mode h4 {
+    text-transform: capitalize;
+    font-size: 22px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+}
+
+.edit-mode p {
+    text-transform: capitalize;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: 'Roboto', sans-serif;
+}
+
+#recipe-description {
+    font-size: 15px;
 }
 
 #prevImg {
     transition: background-color 0.3s ease;
 }
 
-.photo-btn{
+.photo-btn {
     text-align: center;
 }
-.photo-btn input{
+
+.photo-btn input {
     display: inline-block;
     width: 45%;
 }
@@ -392,30 +557,45 @@ body {
     padding: 5px;
 }
 
-.photo-instructions{
+#photo-instructions {
     padding: 5px;
     margin: 0;
     font-style: italic;
     font-size: 14px;
 }
 
-.add-recipe-section{
-    background-image: linear-gradient(180deg, #5b9bd5, transparent);
-}
-
 #cooking_instructions {
-    height: 300px;
+    height: 250px;
 }
 
-.add-info-section{
-    background-image: linear-gradient(180deg, #5b9bd5, transparent);
+#recipe_description {
+    height: 50px;
+}
+
+
+.cuisine-select {
+    margin-bottom: 10px;
+    text-transform: capitalize;
 }
 
 .view-btns,
 .form-btns {
     display: flex;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-right: 0px;
+    margin-left: 0px;
     align-items: center;
     justify-content: center;
+    border: solid 2px;
+    border-bottom-left-radius: 80%;
+    border-bottom-right-radius: 80%;
+    padding-top: 15px;
+    background-color: #000;
+    padding-bottom: 15px;
+    -webkit-box-shadow: inset 0px 0px 10px 10px rgba(255, 255, 255, 1);
+    -moz-box-shadow: inset 0px 0px 10px 10px rgba(255, 255, 255, 1);
+    box-shadow: inset 0px 0px 5px 0px rgba(255, 255, 255, 1);
 }
 
 #cancel-btn,
@@ -426,17 +606,169 @@ body {
     font-size: 25px;
 }
 
-/*************** View Recipe specific page ***************/
+.saved-none{
+    line-height: 50vh;
+    text-align: center;
+}
 
-.recipe-container {
-    border: 1px solid #000;
-    border-bottom: none;
+/*----------------Allergy Popup*/
+
+#allergy-alert {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.allergy-option {
+    display: inline-block;
+    height: 70px;
+    width: 60px;
+}
+
+.allergy-title {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #5b9bd5;
+    width: 350px;
+    height: 50px;
     margin: auto;
+    text-align: center;
+}
+
+.allergy-title h5 {
+    color: #fff;
+    font-size: 26px;
+    line-height: 50px;
+}
+
+.allergy-select {
+    background-color: #343a40;
+    width: 350px;
+    height: 275px;
+    margin: auto;
+    text-align: center;
+    padding: 5px;
+}
+
+.allergy-select img {
+    height: 60px;
+    width: 60px;
+    object-fit: fill;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.allergy-select img:hover {
+    background-image: radial-gradient(#5b9bd5 40%, transparent);
+}
+
+.allergy-selected {
+    background-image: radial-gradient(#5b9bd5 40%, transparent);
+}
+
+.allergy-select .allergy-description {
+    text-transform: capitalize;
+    font-size: 10px;
+    color: #fff;
+}
+
+.allergy-btn {
+    background-color: #343a40;
+    width: 350px;
+    height: 75px;
+    margin: auto;
+    text-align: center;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 5px;
+}
+
+/************************* View Recipe specific page ***************************/
+
+.addrecipe-row {
+    border: 1px solid #000;
     padding: 20px;
-    margin-top: 10px;
-    -webkit-box-shadow: 0px -5px 15px 5px rgba(0,0,0,0.5);
-    -moz-box-shadow: 0px -5px 15px 5px rgba(0,0,0,0.5);
-    box-shadow: 0px -5px 15px 5px rgba(0,0,0,0.5);
+    margin: auto;
+    margin-top: 20px;
+    -webkit-box-shadow: 0px -5px 15px 5px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px -5px 15px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px -10px 15px 5px rgba(0, 0, 0, 0.5);
+}
+
+.addrecipe-row label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Lato', sans-serif;
+}
+
+.addrecipe-row input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.addrecipe-row h4 {
+    text-transform: capitalize;
+    font-size: 22px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+}
+
+.addrecipe-row p {
+    text-transform: capitalize;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: 'Roboto', sans-serif;
+}
+
+.calories-score{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.calories-score span {
+    padding: 5px;
+    color: #fff;
+    background-color: red;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.add-nutrition-section {
+    text-align: center;
+    border-radius: 10px;
+    padding-top: 20px;
+    border: 5px solid #5b9bd5;
+}
+
+.allergy-img {
+    display: inline-block;
+    text-align: center;
+    height: 70px;
+    width: 60px;
+}
+
+.allergy-img img {
+    line-height: 60px;
+    height: 60px;
+    width: 60px;
+    object-fit: fill;
+    border-radius: 50%;
+}
+
+.allergy-img .allergy-description {
+    display: block;
+    text-transform: capitalize;
+    font-size: 10px;
 }
 
 #save-btn,
@@ -447,39 +779,100 @@ body {
     font-size: 25px;
 }
 
-#edit-mode{
+#edit-mode {
     display: none;
 }
 
 /*************** Responsive Design - Mobile & Tablet ***************/
+@media (min-width: 576px) {
+    .header-engraved {
+        padding: 15px;
+        font-size: 30px;
+        height: 85px;
+    }
+}
 
-@media (min-width: 992px){
-    
+@media (min-width: 768px) {
+    .view-recipe-container {
+        text-align: left;
+    }
+    .nutrition-break h6 {
+        font-size: 12px;
+    }
+    .nutrition-allergy-sm label {
+        font-size: 10px;
+    }
+
+    .nutrition-section {
+        padding-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+    }
+    .nutrition-protein {
+        width: 33%;
+        text-align: right;
+        order: 3;
+        padding-top: 0;
+    }
+    .nutrition-calories {
+        margin: auto;
+        display: inline-block;
+        width: 33%;
+        text-align: center;
+        order: 2;
+    }
+    .nutrition-allergy-sm {
+        width: 33%;
+        text-align: left;
+        order: 1;
+        padding-top: 0;
+    }
+    .view-recipe-container-sm {
+        display: none;
+    }
+    .view-recipe-container {
+        display: block;
+    }
+    .header-engraved {
+        padding: 20px;
+        font-size: 50px;
+        height: 100px;
+    }
+    .editable-sm{
+        display:none;
+    }
+    .editable-lg{
+        display:block;
+    }
+        
+}
+
+@media (min-width: 992px) {
+
     /*************** Nav Bar ***************/
     .navbar-brand {
         font-size: 32px;
         padding-right: 20px;
     }
-    
+
     .page-header {
         font-size: 22px;
         font-weight: 500;
     }
-    
     .nav-link {
-        font-size: 18px;
+        font-size: 15px;
     }
-    
+
 
     /*************** Home ***************/
     .recipe-row {
-        height: 240px;
+        height: 280px;
     }
     .saved-recipe-row {
-        height: 240px;
+        height: 280px;
     }
-    
-    .saved-section{
+
+    .saved-section {
         height: 100%;
         width: 100%;
         background-color: #000;
@@ -491,7 +884,7 @@ body {
         width: 100%;
         background-color: #5b9bd5;
     }
-    
+
     .saved-recipe,
     .remove-section a,
     .save-section a,
@@ -501,7 +894,7 @@ body {
         position: absolute;
         font-size: 20px;
         height: auto;
-        width: 100%;
+        width: 150%;
         left: 50%;
         top: 50%;
         transform: translateX(-50%) translateY(-50%) rotate(-90deg);
@@ -510,16 +903,36 @@ body {
         -ms-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
         -o-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
     }
-    
-    .photo-section img{
+
+    .photo-section img {
         padding: 0;
     }
-    
-    .recipe-cuisine{
+
+    .recipe-cuisine {
         margin-top: 0;
     }
-    
+
+    .nutrition-break h6 {
+        font-size: 14px;
+    }
+    .amber-calories span,
+    .red-calories span,
+    .green-calories span {
+        background-color: transparent;
+        border: none;
+    }
+    .view-recipe-container {
+        display: inline-block;
+    }
+    .nutrition-allergy {
+        display: inline-block;
+        padding-left: 30px;
+    }
+    .nutrition-allergy-sm {
+        display: none;
+    }
     .nutrition-calories {
+        top: 0;
         width: 0;
         height: 0;
         border-top: 150px solid;
@@ -530,7 +943,7 @@ body {
         display: block;
         border-radius: 0;
     }
-    
+
     .nutrition-calories span {
         position: absolute;
         top: -110px;
@@ -542,30 +955,30 @@ body {
         transform: rotate(45deg);
         display: block;
     }
-    
+
     .green-calories {
         background-color: transparent;
         border-top: 150px solid green;
     }
-    
+
     .amber-calories {
         background-color: transparent;
         border-top: 150px solid orange;
     }
-    
+
     .red-calories {
         background-color: transparent;
         border-top: 150px solid red;
     }
-    
+
     .nutrition-protein {
         position: relative;
         font-size: 20px;
         font-weight: 500;
-        top: 75%;
+        top: 80%;
+        width: 100%;
         text-align: center;
         display: block;
-        width: auto;
     }
 
     #back-btn {
@@ -574,22 +987,131 @@ body {
     }
 }
 
+@media (min-width: 1200px) {
 
-@media (min-width: 1200px){
-    
     /*************** Nav Bar ***************/
     .navbar-brand {
         font-size: 40px;
         padding-right: 25px;
     }
-    
+
     .page-header {
         font-size: 26px;
         font-weight: 500;
     }
-    
     .nav-link {
-        font-size: 20px;
+        font-size: 18px;
     }
 
+}
+
+/*************** Screen Transitions ***************/
+
+.loader-savepage,
+.loader-homepage {
+    animation: 0.5s ease 0s 1 slideIn;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(-20%);
+        opacity: 0;
+    }
+    20% {
+        transform: translateX(-5%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+@-moz-keyframes slideIn{
+    0% {
+        -moz-transform: translateX(-20%);
+        -moz-opacity: 0;
+    }
+    20% {
+        -moz-transform: translateX(-5%);
+        -moz-opacity: 0;
+    }
+    100% {
+        -moz-transform: translateX(0);
+        -moz-opacity: 1;
+    }
+}
+@-webkit-keyframes slideIn{
+    0% {
+        -webkit-transform: translateX(-20%);
+        -webkit-opacity: 0;
+    }
+    20% {
+        -webkit-transform: translateX(-5%);
+        -webkit-opacity: 0;
+    }
+    100% {
+        -webkit-transform: translateX(0);
+        -webkit-opacity: 1;
+    }
+}
+.loader-savetitle,
+.loader-viewpage {
+    animation: 1s ease 0s 1 slideDown;
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-20%);
+        opacity: 0;
+    }
+    20% {
+        transform: translateY(-10%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+@-moz-keyframes slideDown{
+    0% {
+        -moz-transform: translateY(-20%);
+        -moz-opacity: 0;
+    }
+    20% {
+        -moz-transform: translateY(-10%);
+        -moz-opacity: 0;
+    }
+    100% {
+        -moz-transform: translateY(0);
+        -moz-opacity: 1;
+    }
+}
+@-webkit-keyframes slideDown{
+    0% {
+        -webkit-transform: translateY(-20%);
+        -webkit-opacity: 0;
+    }
+    20% {
+        -webkit-transform: translateY(-10%);
+        -webkit-opacity: 0;
+    }
+    100% {
+        -webkit-transform: translateY(0);
+        -webkit-opacity: 1;
+    }
+}
+
+
+.loader-editpage {
+    animation: .5s ease 0s 1 appearCenter;
+}
+
+@keyframes appearCenter {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
 }

@@ -1,12 +1,12 @@
 {% extends 'base.html' %} {% block content %}
 
-<div class="container-fluid">
+<div class="container-fluid edit-mode loader-editpage">
     <form action="{{url_for('insert_recipe')}}" method="POST">
-        <div class="form-row addrecipe-row">
+        <div class="row addrecipe-row">
             
             <!--Recipe Image Section-->
             <div class="col-12 col-lg-4 add-photo-section">
-                <label for="photo_id">Reciep Image:</label>
+                <label for="photo_id">Insert Image URL:</label>
                  <div id="photo-preview">
                     <img></img>
                 </div>
@@ -14,53 +14,88 @@
                     <input id="clearImg" class="btn btn-danger" type="button" value="Clear">
                     <input id="prevImg" class="btn btn-dark" type="button" value="Preview">
                 </div>
-                <p class="photo-instructions"> Please enter a URL for the image you want to display below and click Preview above to view it</p>
+                <p id="photo-instructions"> Please enter a URL for the image you want to display below and click Preview above to view it</p>
                 <input id="photoUrl" type="url" class="form-control" name="photo_id" placeholder="https://example.com" required>
             </div>
             
             <!--Recipe Information Section-->
             <div class="col-12 col-lg-4 add-recipe-section">
                 <div class="form-group">
-                    <label for="recipe_name">Recipe Name:</label>
+                    <label for="recipe_name">Enter Recipe Name:</label>
                     <input type="text" class="form-control" id="recipe_name" name="recipe_name" placeholder="Enter Recipe Name…" required>
                 </div>
                 <div class="form-group">
-                    <label for="cooking_instructions">Recipe Instructions:</label>
+                    <label for="recipe_description">Brief Description:</label>
+                    <textarea type="text" maxlength="150" class="form-control" id="recipe_description" name="recipe_description" placeholder="Brief description about the dish here…" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="cooking_instructions">Cooking Instructions:</label>
                     <textarea type="text" class="form-control" id="cooking_instructions" name="cooking_instructions" placeholder="Insert cooking instructions…"></textarea>
                 </div>
             </div>
             
+            <!--Recipe Type & Details-->
             <div class="col-12 col-lg-4 add-info-section">
-                <div class="form-group">
-                    <label for="recipe_description">Recipe Description:</label>
-                    <input type="text" class="form-control" id="recipe_description" name="recipe_description" placeholder="Brief description about the dish here…" required>
-                </div>
                 <!--Select a cuisine-->
-                <label for="cuisine">Select Recipe Cuisine</label>
-                <select name="cuisine" class="custom-select" required>
-                    {% for cuisine in select_cuisines %}
-                    <option value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name }}</option>
-                    {% endfor %}
-                </select>
+                <div class="form-group">
+                    <label for="cuisine">Select Recipe Cuisine</label>
+                    <select name="cuisine" class="custom-select cuisine-select" required>
+                        {% for cuisine in form_cuisines %}
+                        <option value="{{ cuisine.cuisine_name }}">{{ cuisine.cuisine_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="cook_time">Cooking Time (include Prep):</label>
                     <input type="number" class="form-control" id="cook_time" name="cook_time" placeholder="Enter cooking time…">
                 </div>
                 <div class="form-group">
-                    <label for="calories">Recipe Calories:</label>
+                    <label for="calories">Total Calories:</label>
                     <input type="number" class="form-control" id="calories" name="calories" placeholder="Enter Calories…">
                 </div>
                 <div class="form-group">
                     <label for="protein">Protein, grams per serving (if known):</label>
                     <input type="number" class="form-control" id="protein" name="protein" placeholder="Grams per serving…">
                 </div>
+
+                <!--Allergy selection (hidden) - selected from the allergy pop up below-->
+                <div class="form-group" style="display:none">
+                    <select id="form-allergy-select" multiple="multiple" name="allergies">
+                        {% for form_allergy in form_allergies %}
+                        <option class="form-allergy-choice" value="{{ form_allergy.allergy_name }}"></option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
         </div>
+        
         <div class="form-row form-btns">
-            <a id="cancel-btn" class="btn btn-dark btn-lg" href="{{ url_for('index') }}" role="button">Cancel</a>
-            <button id="next-btn" class="btn btn-dark btn-lg" type="submit">Next</button>
+            <a id="cancel-btn" class="btn btn-outline-light btn-lg" href="{{ url_for('index') }}" role="button">Back</a>
+            <input id="next-btn" class="btn btn-outline-success btn-lg" type="button" value="Next"/>
+            <!--Form submit button - hidden-->
+            <input id="addRecipe" type="submit" value="Finish" style="display:none"/>
         </div>
+        
     </form>
+</div>
+
+<!--Food Allegy Images have been sourced from https://erudus.com/14-major-food-allergens-for-eu-food-information-for-consumers/-->
+<div id="allergy-alert">
+    <div class="allergy-title">
+        <h5>Food Allergies</h5>
+    </div>
+    <div class="allergy-select">
+    {% for select_allergy in select_allergies %}
+        <div class="allergy-option">
+            <img id='false' class="allergy-choice" src="{{ select_allergy.image_id }}" alt="{{ select_allergy.allergy_name }}" name="{{ select_allergy.allergy_name }}"></img>
+            <span class="allergy-description">{{ select_allergy.allergy_name }}</span>
+        </div>
+    {% endfor %}
+    </div>
+    <div class="allergy-btn">
+        <button id="cancelRecipe" type="button" class="btn btn-outline-danger btn-lg">Cancel</button>
+        <button type="button" class="btn btn-outline-success btn-lg" onclick="$('#addRecipe').click();">Finish</button>
+    </div>
 </div>
 
 {% endblock %} 

@@ -1,13 +1,17 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class="container-fluid">
-
-    <div class="header-engraved">
-        Welcome to your saved recipes
+    <div class="row"></div>
+        <div class="header-engraved loader-savetitle">
+            Welcome to your saved recipes
+        </div>
     </div>
+</div>
 
+{% if recipes[0] %}
 {% for recipe in recipes %}
-    <div class="row saved-recipe-row">
+<div class="container-fluid">
+    <div class="row saved-recipe-row loader-savepage">
 
         <!--Remove button-->
         <div id="remove-section" class="col-12 col-lg-1 remove-section">
@@ -15,6 +19,11 @@
             <a id="{{ recipe.id }}" class="remove-recipe" href="{{url_for('remove_recipe', recipe='REPLACE')}}" style="display: none">Click to Remove</a>
         </div>
 
+        <!--Display Break for mobile & tablet -->
+        <div class="col-12 d-block d-lg-none">
+            <hr class="my-3">
+        </div>
+        
         <!--Recipe Image-->
         <div class="col-12 col-md-4 col-lg-2 photo-section">
             <img src="{{ recipe.photo_id }}" class="photo-content"></img>
@@ -26,36 +35,73 @@
             <h4 class="recipe-title">{{ recipe.recipe_name }}</h4>
             <p class="recipe-description">{{ recipe.recipe_description }}</p>
             <p class="recipe-time">{{ recipe.cook_time }} Minutes</p>
-            <a id="{{ recipe.id }}" class="view-recipe" href="{{url_for('view_recipe', recipe='REPLACE')}}">View Recipe</a>
+            <div class="view-recipe-container">
+                <button class="btn btn-primary btn-lg view-recipe-btn">View Recipe</button>
+                <a id="{{ recipe.id }}" class="view-recipe" href="{{url_for('view_recipe', recipe='REPLACE')}}" style="display:none;"></a>
+            </div>
+
+            <!--Allergy Details-->
+            <div class="nutrition-allergy">
+                <label for="view_allergy">Allergies:</label> {% if recipe.allergy_url %} {% for allergy in recipe.allergy_url %}
+                <img id='true' class="" src="{{ allergy }}" alt="{{ allergy }}"></img>
+                <span class="allergy-description">{{ allergy }}</span> {% endfor %} {% else %}
+                <img src="{{ url_for('static', filename='images/noallergies.jpg') }}"></img>
+                {% endif %}
+            </div>
+            
         </div>
 
+        <!--Nutritional Title for mobile & tablet-->
+        <div class="col-12 d-block d-lg-none nutrition-break">
+            <h6>Nutritional Information</h6>
+            <hr class="my-3">
+        </div>
+        
         <!--Nutritional Details-->
         <div class="col-12 col-lg-2 nutrition-section">
-            {% if recipe.calories<=350 %} 
+            <!--Calorie set for Red, Amber, Green bg color-->
+            {% if recipe.calories<=350 %}
             <div class="nutrition-calories green-calories">
-                <span>{{ recipe.calories }}</span>
-            </div>
-            {% elif recipe.calories<=500 %} 
+            {% elif recipe.calories<=450 %}
             <div class="nutrition-calories amber-calories">
-                <span>{{ recipe.calories }}</span>
-            </div>
             {% else %}
             <div class="nutrition-calories red-calories">
-                <span>{{ recipe.calories }}</span>
-            </div>
                 {% endif %}
+                <span>{{ recipe.calories }} Cals</span>
+            </div>
+
+            <div class="nutrition-allergy-sm">
+                {% if recipe.allergy_url %}
+                <label for="view_allergy">Allergies:</label> {% for allergy in recipe.allergy_url %}
+                <img id='true' class="" src="{{ allergy }}" alt="{{ allergy }}"></img>
+                <span class="allergy-description">{{ allergy }}</span> {% endfor %} {% else %}
+                <label for="view_allergy">Allergies:</label>
+                <img src="{{ url_for('static', filename='images/noallergies.jpg') }}"></img>
+                {% endif %}
+            </div>
+
             <div class="nutrition-protein">
-                Protein: {{ recipe.protein }}g
+                <span>{{ recipe.protein }}g <span class="protein">Protein</span></span>
+            </div>
+
+            <div class="view-recipe-container-sm">
+                <button class="btn btn-primary btn-lg view-recipe-btn">View Recipe</button>
+                <a id="{{ recipe.id }}" class="btn btn-primary btn-lg view-recipe" href="{{url_for('view_recipe', recipe='REPLACE')}}" style="display:none;">View Recipe</a>
             </div>
         </div>
 
     </div>
-
-{% endfor %}
 </div>
-
-<!--    <h1>It doesn't look like you've saved any recipes yet!</h1>-->
-<!--    <h3>Go back to the Home page to save recipes</h3>-->
+{% endfor %}
+{% else %}
+<div class="container-fluid">
+    <div class="row"></div>
+        <div class="saved-none">
+            You have no saved recipes!
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <!--Go to top button-->
 <button id="back-btn" title="Go to top">Go To Top</button> {% endblock %}
