@@ -1,16 +1,9 @@
 {% extends 'base.html' %} {% block content %}
 
-<div class="helper-container2" style="display: none;">
-    <div class="edit-helper">
-        <h6>Helper</h6>
-        <p>All recipes that are Editable will display in the bottom or bottom right corner</p>
-        <button type="button" class="btn btn-outline-light finish-helper">OK</button>
-    </div>
-</div>
-
 <!--Add each recipe-->
-{% for recipe in recipes %}
+
 <div class="container-fluid loader-homepage">
+    {% for recipe in recipes %}
     <div class="row recipe-row">
 
         <!--Save button-->
@@ -103,8 +96,9 @@
         </div>
 
     </div>
+    {% endfor %}
 </div>
-{% endfor %}
+
 
 <!--Go to top button-->
 <button id="back-btn" title="Go to top">Go To Top</button>

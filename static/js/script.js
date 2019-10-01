@@ -70,11 +70,8 @@ $(document).ready(function() {
         })
     });
     
-    // Nav Bar - Edit Recipe Helper
+    // Helper Pop-ups
     
-    $(".edit-recipe-info").click(function() {
-        $(".helper-container").fadeIn(500);
-    });
     $(".confirm-helper").click(function() {
         $(".helper-container").fadeOut(200);
         $(".helper-container2").fadeIn(200);

@@ -42,7 +42,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{url_for('add_recipe')}}">Add Recipe</a>
-                        <button class="dropdown-item edit-recipe-info">Edit Recipes</button>
+                        <a class="dropdown-item" href="{{url_for('edit_recipes')}}">Edit Recipes</a>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -56,15 +56,6 @@
         </div>
         {% endif %}
     </nav>
-
-    <!--Edit recipe helper box-->
-    <div class="helper-container" style="display: none;">
-        <div class="edit-helper">
-            <h6>Helper</h6>
-            <p>You can edit any Recipe you have created by clicking on the 'View Recipe' button followed by the "Edit" button</p>
-            <button type="button" class="btn btn-outline-light confirm-helper">OK</button>
-        </div>
-    </div>
 
     <!--Nav Bar Filter Menu-->
     <div id="recipe-filter" class="container-fluid" style="display: none">

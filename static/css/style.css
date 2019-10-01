@@ -126,12 +126,12 @@ body {
 }
 
 .navbar-brand {
-    font-size: 26px;
+    font-size: 20px;
     font-family: 'Lato', sans-serif;
 }
 
 .page-header {
-    display: block;
+    display: none;
     color: rgba(91, 155, 213, 1);
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
@@ -494,7 +494,8 @@ body {
 
 .add-recipe-section,
 .add-info-section,
-.add-photo-section {
+.add-photo-section,
+.view-photo-section{
     padding-top: 20px;
 }
 
@@ -528,12 +529,8 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-#recipe-description {
-    font-size: 15px;
-}
-
 #prevImg {
-    transition: background-color 0.3s ease;
+    transition: background-color 0.5s ease;
 }
 
 .photo-btn {
@@ -545,11 +542,19 @@ body {
     width: 45%;
 }
 
-#photo-preview {
+.add-photo-section{
+    width: 100px;
+}
+.view-photo-section{
+    height: 100%;
     text-align: center;
 }
+#photoUrl{
+    font-size: 10px;
+}
 
-#photo-preview img {
+.add-photo-section Img,
+.view-photo-section Img{
     height: 100%;
     max-height: 400px;
     width: 100%;
@@ -558,14 +563,15 @@ body {
 }
 
 #photo-instructions {
+    text-align: center;
     padding: 5px;
     margin: 0;
     font-style: italic;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 #cooking_instructions {
-    height: 250px;
+    height: 150px;
 }
 
 #recipe_description {
@@ -724,7 +730,7 @@ body {
 
 .addrecipe-row p {
     text-transform: capitalize;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     font-family: 'Roboto', sans-serif;
 }
@@ -785,6 +791,9 @@ body {
 
 /*************** Responsive Design - Mobile & Tablet ***************/
 @media (min-width: 576px) {
+    .page-header {
+        display: block;
+    }
     .header-engraved {
         padding: 15px;
         font-size: 30px;
@@ -911,6 +920,10 @@ body {
     .recipe-cuisine {
         margin-top: 0;
     }
+    #recipe-description {
+        max-height: 200px;
+        overflow: auto;
+    }
 
     .nutrition-break h6 {
         font-size: 14px;
@@ -985,6 +998,19 @@ body {
         padding: 15px;
         font-size: 20px;
     }
+    #photo-preview {
+        height: 200px;
+        text-align: center;
+    }
+    
+    #photo-preview img {
+        height: 100%;
+        max-height: 400px;
+        width: 100%;
+        object-fit: cover;
+        padding: 5px;
+    }
+
 }
 
 @media (min-width: 1200px) {
@@ -1054,6 +1080,7 @@ body {
         -webkit-opacity: 1;
     }
 }
+.loader-editpage,
 .loader-savetitle,
 .loader-viewpage {
     animation: 1s ease 0s 1 slideDown;
@@ -1099,19 +1126,5 @@ body {
     100% {
         -webkit-transform: translateY(0);
         -webkit-opacity: 1;
-    }
-}
-
-
-.loader-editpage {
-    animation: .5s ease 0s 1 appearCenter;
-}
-
-@keyframes appearCenter {
-    0% {
-        transform: scale(0);
-    }
-    100% {
-        transform: scale(1);
     }
 }
