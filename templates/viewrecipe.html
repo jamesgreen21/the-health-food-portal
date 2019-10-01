@@ -145,7 +145,6 @@
 <div class="container-fluid">
     <div class="row view-btns">
         <a id="cancel-btn" class="btn btn-outline-light btn-lg" href="{{ url_for('index') }}" role="button">Home</a>
-        
         <!--Check if user created recipe - Edit Mode-->
         {% if edit_mode %}
             <button id="edit-btn" class="btn btn-outline-primary">Edit</button>
@@ -153,7 +152,6 @@
             <!--<a id="{{ recipe.id }}" class="save-recipe" href="{{url_for('save_recipe', recipe='REPLACE')}}" style="display: none">Click to Save</a>-->
             <a id="save-btn" class="btn btn-outline-primary" href="" role="button">Save</a>
         {% endif %}
-
         <button id="next-btn" class="btn btn-outline-success" type="button" style='display: none'>Next</button>
     </div>
 </div>

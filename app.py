@@ -107,40 +107,43 @@ def filter_recipes():
         user_detail = get_user_detail(active_user)
         username = user_detail["user_name"]
         user_recipes = user_detail["user_saved_recipes"]
-        
+
         active_filters = request.form.to_dict()
         cuisine_filters = []
         allergy_filters = []
-        calories_filter = {"calories": {"$lt": int(active_filters['calories'])+1}}
-        time_filter = {"cook_time": {"$lt": int(active_filters['cook_time'])+1}}
+        calories_filter = {
+            "calories": {"$lt": int(active_filters['calories'])+1}}
+        time_filter = {
+            "cook_time": {"$lt": int(active_filters['cook_time'])+1}}
         protein_filter = {"protein": {"$lt": int(active_filters['protein'])+1}}
-        
+
         if 'cuisine' in active_filters:
             cuisine_filters = {"cuisine": {"$in": [active_filters['cuisine']]}}
         else:
             cuisine_filters = {"cuisine": {"$nin": [""]}}
 
         if 'allergies' in active_filters:
-            allergy_filters = {"allergies": {"$nin": [active_filters['allergies']]}}
+            allergy_filters = {
+                "allergies": {"$nin": [active_filters['allergies']]}}
         else:
             allergy_filters = {"allergies": {"$nin": [""]}}
 
-        return render_template("index.html", 
+        return render_template("index.html",
                                page="Home",
                                username=username,
                                user=active_user,
                                saved_recipes=user_recipes,
                                cuisines=mongo.db.cuisines.find(),
                                allergies=mongo.db.allergies.find(),
-                               recipes=mongo.db.master.find({"$and": [
-                               allergy_filters,
-                               cuisine_filters,
-                               calories_filter,
-                               time_filter,
-                               protein_filter]}))
+                               recipes=mongo.db.master.find(
+                                   {"$and": [allergy_filters,
+                                             cuisine_filters,
+                                             calories_filter,
+                                             time_filter,
+                                             protein_filter]}))
 
 
-@app.route('/view_recipe')
+@app.route('/view_recipe', methods=['POST', 'GET'])
 def view_recipe():
     """
     View Recipe
@@ -154,7 +157,6 @@ def view_recipe():
         user_detail = get_user_detail(active_user)
         username = user_detail["user_name"]
         user_recipes = user_detail["user_edit_recipes"]
-        print(user_recipes)
         edit_mode = True if int(recipe_id) in user_recipes else False
 
         return render_template("viewrecipe.html",
@@ -226,13 +228,9 @@ def saved_recipes():
         return render_template('login.html', page="Login")
     else:
         active_user = session['_id']
-        users = mongo.db.users.find({'user_id': active_user})
-        user_recipes = ''
-        username = ''
-        for user in users:
-            user_recipes = list(map(int, user["saved_recipes"]))
-            username = user["first"] + " " + user["last"]
-
+        user_detail = get_user_detail(active_user)
+        username = user_detail["user_name"]
+        user_recipes = user_detail["user_saved_recipes"]
         return render_template("savedrecipes.html",
                                page="Saved Recipes",
                                username=username,
@@ -242,7 +240,7 @@ def saved_recipes():
                                allergies=mongo.db.allergies.find())
 
 
-@app.route('/edit_recipes', methods=['POST', 'GET'])
+@app.route('/edit_recipes')
 def edit_recipes():
     """
     Home Page - Editable recipes filter
@@ -254,8 +252,7 @@ def edit_recipes():
         user_detail = get_user_detail(active_user)
         username = user_detail["user_name"]
         user_editable_recipes = user_detail["user_edit_recipes"]
-        recipes=mongo.db.master.find({"user_id": {"$in": [active_user]}})
-        
+        recipes = mongo.db.master.find({"user_id": {"$in": [active_user]}})
         return render_template("index.html",
                                page="Home",
                                username=username,
@@ -264,9 +261,9 @@ def edit_recipes():
                                saved_recipes=user_editable_recipes,
                                cuisines=mongo.db.cuisines.find(),
                                allergies=mongo.db.allergies.find())
-    
 
-@app.route('/add_recipe')
+
+@app.route('/add_recipe', methods=['POST', 'GET'])
 def add_recipe():
     """
     Add Recipes Page
@@ -275,82 +272,73 @@ def add_recipe():
         return render_template('login.html', page="Login")
     else:
         active_user = session['_id']
-        users = mongo.db.users.find({'user_id': active_user})
-        user_recipes = ''
-        username = ''
-        for user in users:
-            user_recipes = list(map(int, user["saved_recipes"]))
-            username = user["first"] + " " + user["last"]
 
-        return render_template("addrecipe.html",
-                               cuisines=mongo.db.cuisines.find(),
-                               form_cuisines=mongo.db.cuisines.find(),
-                               page="Add Recipe",
-                               username=username,
-                               allergies=mongo.db.allergies.find(),
-                               form_allergies=mongo.db.allergies.find(),
-                               select_allergies=mongo.db.allergies.find())
+        if request.method == 'POST':
+            # Insert a new recipe to the DB
+            new_recipe = request.form.to_dict()
+            for key in new_recipe:
+                if key in ['cook_time', 'calories', 'protein']:
+                    new_recipe[key] = int(new_recipe[key])
 
+            # Update allergies
+            allergies = mongo.db.allergies.find()
+            new_recipe_allergies = request.form.getlist('allergies')
+            allergy_urls = []
+            for allergy in allergies:
+                if allergy['allergy_name'] in new_recipe_allergies:
+                    allergy_urls.append(allergies['image_id'])
 
-@app.route('/insert_recipe', methods=['POST'])
-def insert_recipe():
-    """
-    Insert recipe to MongoDB master collection
-    """
-    active_user = session['_id']
-    recipes = mongo.db.master
-    allergies_cur = mongo.db.allergies.find()
-    allergy_names = request.form.getlist('allergies')
-    allergy_urls = []
-    new_recipe = request.form.to_dict()
-    # Update allergies
-    for allergies in allergies_cur:
-        if allergies['allergy_name'] in allergy_names:
-            allergy_urls.append(allergies['image_id'])
+            # Compile information to dict
+            recipes = mongo.db.master
+            recipe_id = recipes.find_one(sort=[("id", -1)])["id"]
+            new_recipe.update({'id': recipe_id + 1})
+            new_recipe.update(
+                {'allergies': new_recipe_allergies,
+                 'allergy_url': allergy_urls})
+            new_recipe.update({'user_id': active_user})
 
-    # Update number values
-    for key in new_recipe:
-        if key in ['cook_time', 'calories', 'protein']:
-            new_recipe[key] = int(new_recipe[key])
+            recipes.insert_one(new_recipe)
+            return redirect(url_for('index'))
 
-    # Update id
-    recipe_id = recipes.find_one(sort=[("id", -1)])["id"]
-    new_recipe.update({'id': recipe_id+1})
-    new_recipe.update(
-        {'allergies': allergy_names, 'allergy_url': allergy_urls})
-    new_recipe.update({'user_id': active_user})
-
-    recipes.insert_one(new_recipe)
-    return redirect(url_for('index'))
+        else:
+            user_detail = get_user_detail(active_user)
+            username = user_detail["user_name"]
+            return render_template("addrecipe.html",
+                                   cuisines=mongo.db.cuisines.find(),
+                                   form_cuisines=mongo.db.cuisines.find(),
+                                   page="Add Recipe",
+                                   username=username,
+                                   allergies=mongo.db.allergies.find(),
+                                   form_allergies=mongo.db.allergies.find(),
+                                   select_allergies=mongo.db.allergies.find())
 
 
-@app.route('/update_recipe', methods=['POST'])
+@app.route('/update_recipe', methods=['POST', 'GET'])
 def update_recipe():
     """
-    Update recipe in MongoDB master collection
+    Updates the recipe master DB
     """
-    recipes = mongo.db.master
-    allergies_cur = mongo.db.allergies.find()
-    allergy_names = request.form.getlist('allergies')
-    allergy_urls = []
+    edit_recipe = request.form.to_dict()
+    for key in edit_recipe:
+        if key in ['cook_time', 'calories', 'protein']:
+            edit_recipe[key] = int(edit_recipe[key])
 
     # Update allergies
-    for allergies in allergies_cur:
-        if allergies['allergy_name'] in allergy_names:
+    allergies = mongo.db.allergies.find()
+    edit_recipe_allergies = request.form.getlist('allergies')
+    allergy_urls = []
+    for allergy in allergies:
+        if allergy['allergy_name'] in edit_recipe_allergies:
             allergy_urls.append(allergies['image_id'])
 
-    updated_rec = request.form.to_dict()
-    for key in updated_rec:
-        if key in ['cook_time', 'calories', 'protein']:
-            updated_rec[key] = int(updated_rec[key])
+    # Compile information to dict
+    recipe_id = {"id": int(edit_recipe["id"])}
+    edit_recipe.pop("id")
+    edit_recipe.update(
+        {'allergies': edit_recipe_allergies, 'allergy_url': allergy_urls})
 
-    recipe_id = {"id": int(updated_rec["id"])}
-    updated_rec.pop("id")
-    updated_rec.update(
-        {'allergies': allergy_names, 'allergy_url': allergy_urls})
-
-    new_values = {"$set": updated_rec}
-    print(recipe_id, new_values)
+    recipes = mongo.db.master
+    new_values = {"$set": edit_recipe}
     recipes.update_one(recipe_id, new_values)
     return redirect(url_for('index'))
 
@@ -368,7 +356,7 @@ def get_user_detail(active_user):
             editable_recipes.append(recipe['id'])
     for user in users:
         return {
-            "user_name": user["first"] + " " + user["last"], 
+            "user_name": user["first"] + " " + user["last"],
             "user_saved_recipes": list(map(int, user["saved_recipes"])),
             "user_edit_recipes":  editable_recipes
         }
